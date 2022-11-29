@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from sqlalchemy import Column, Integer
 
-from alchemy_base import Base
+from configs.sqlalchemy_config import Base
 
 
 @dataclass
@@ -35,7 +35,10 @@ class Room(Base):
         self.resetDutyDays()
 
     def __repr__(self) -> str:
-        return "<{0.__class__.__name__}(id={0.id!r})>".format(self)
+        return "<{0.__class__.__name__}(number={0.number!r})>".format(self)
+
+    def __str__(self) -> str:
+        return "{0}".format(self.number)
 
 
 Base.metadata.create_all()

@@ -1,11 +1,11 @@
 from calendar import monthrange
 from datetime import date, timedelta
-from typing import Dict, Generator, List, Optional
-from alchemy_base import Session
+from typing import Dict, Generator, List, Optional, Tuple
 import sqlalchemy.exc
 
-from room import Room
-from utils import daterange, shift
+from configs.sqlalchemy_config import Session
+from models.room import Room
+from helpers.utils import daterange, shift
 
 
 class Scheduler:
@@ -32,6 +32,7 @@ class Scheduler:
     SCHEDULE_LIST_FORMAT_STR: str = "{0} - {1}"
 
     rooms: Dict[int, Room]
+    schedule: List[Tuple[date, int]]
 
     def __init__(self) -> None:
         self.conn = Session()
@@ -76,19 +77,24 @@ class Scheduler:
             print(self.RoomAlreadyExistsException(number).message)
 
     def removeRoom(self, number: int) -> None:
-        self.getRoom(number).delete()
-        self.conn.commit()
+        if (room := self.getRoom(number)) is not None:
+            room.delete()
+            self.conn.commit()
 
-    def getRoom(self, number: int) -> Room:
-        return self.conn.query(Room).where(Room.number == number).one()
+    def getRoom(self, number: int) -> Optional[Room]:
+        return self.conn.query(Room).where(Room.number == number).one_or_none()
+
+    def getRooms(self) -> List[Room]:
+        return self.conn.query(Room).all()
 
     def commitChanges(self) -> None:
         self.conn.commit()
 
-    def makeASchedule(self,
-                      start_room_number: int,
-                      start_date: Optional[date] = None,
-                      end_date: Optional[date] = None) -> List[str]:
+    def makeASchedule(
+            self,
+            start_room_number: int,
+            start_date: Optional[date] = None,
+            end_date: Optional[date] = None) -> List[Tuple[date, int]]:
         try:
             self.getRoom(start_room_number)
         except sqlalchemy.exc.NoResultFound:
@@ -100,11 +106,15 @@ class Scheduler:
         rooms: List[Room] = self.__getSortedRoomFromStartRoom(
             start_room_number)
 
-        schedule = [(date_, room.number) for date_, room in zip(
-            daterange(start_date, end_date), self.__roomgen(rooms))]
-
-        schedule_str: List[str] = [
-            self.SCHEDULE_LIST_FORMAT_STR.format(*record)
-            for record in schedule
+        self.schedule = [  # type: ignore
+            (date_, room.number) for date_, room in zip(
+                daterange(start_date, end_date), self.__roomgen(rooms))
         ]
-        return schedule_str
+
+        return self.schedule  # type: ignore
+
+    def getScheduleStr(self) -> List[str]:
+        return [
+            self.SCHEDULE_LIST_FORMAT_STR.format(*record)
+            for record in self.schedule
+        ]
