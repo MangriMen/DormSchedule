@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Schedule</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="font">
+    <font>
+     <family>Segoe UI Variable</family>
+    </font>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>9</number>
+    </property>
+    <property name="topMargin">
+     <number>9</number>
+    </property>
+    <property name="rightMargin">
+     <number>9</number>
+    </property>
+    <property name="bottomMargin">
+     <number>9</number>
+    </property>
+    <property name="spacing">
+     <number>6</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QSplitter" name="splitter">
+      <property name="font">
+       <font>
+        <family>Segoe UI Variable</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="childrenCollapsible">
+       <bool>false</bool>
+      </property>
+      <widget class="QWidget" name="gridLayoutWidget">
+       <property name="font">
+        <font>
+         <family>Segoe UI Variable</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <layout class="QGridLayout" name="scheduleTableLayout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <item row="1" column="0">
+         <widget class="QTableView" name="scheduleTableView">
+          <property name="font">
+           <font>
+            <family>Segoe UI Variable</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="scheduleTableLabel">
+          <property name="font">
+           <font>
+            <family>Segoe UI Variable</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Schedule table</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <layout class="QGridLayout" name="scheduleOptionsLayout">
+          <item row="0" column="1" colspan="2">
+           <widget class="DateRange" name="startEndDateRange" native="true"/>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="QComboBox" name="roomComboBox"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="startRoomLabel">
+            <property name="text">
+             <string>Start room</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QPushButton" name="generateScheduleButton">
+            <property name="text">
+             <string>Generate</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="startEndDateLabel">
+            <property name="text">
+             <string>Date range</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="gridLayoutWidget_2">
+       <property name="font">
+        <font>
+         <family>Segoe UI Variable</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <layout class="QGridLayout" name="roomListLayout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="roomListLabel">
+          <property name="font">
+           <font>
+            <family>Segoe UI Variable</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Room list</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="RoomCard" name="roomCard" native="true"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QListView" name="roomListView">
+          <property name="font">
+           <font>
+            <family>Segoe UI Variable</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>RoomCard</class>
+   <extends>QWidget</extends>
+   <header>views/RoomCard/RoomCard.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DateRange</class>
+   <extends>QWidget</extends>
+   <header>views/DateRange/DateRange.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
